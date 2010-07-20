@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+
+##is coded by visof##
+require 'rubygems'
+require 'mechanize'
+require 'uri'
+require 'net/http'
+
+agent = Mechanize.new
+search = ARGV[0]
+link = "http://www.google.co.uk/search?hl=en&source=hp&q=#{search}&aq=f&aqi=&aql=&oq=&gs_rfai=&cad=cbv"
+page = agent.get(link)
+
+num_results = ARGV[1].to_i
+i = 0
+if ARGV.length == 2
+	page.links.each do |link|
+		puts "--- #{link.text}:  #{link.attributes['href']}" if link.attributes['class'] == 'l'
+		i += 1 if link.attributes['class'] == 'l' 
+ 		break if num_results == i		
+	end
+else
+	puts "Usage: google something num_of_results"
+end
+
